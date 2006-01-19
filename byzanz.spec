@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.0.3
-Release: 2
+Release: 3%{?dist}
 License: GPL
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 %{_libexecdir}/byzanz-applet
 
 %changelog
+* Thu Jan 19 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.0.3-3
+- Bump release.
+
 * Fri Jan 13 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.0.3-1
 - Initial build.
 

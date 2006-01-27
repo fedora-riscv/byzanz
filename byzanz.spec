@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.1.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -62,6 +62,16 @@ export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule \
   %{_sysconfdir}/gconf/schemas/byzanz.schemas > /dev/null || :
 killall -HUP gconfd-2 || :
+touch --no-create %{_datadir}/icons/hicolor || :
+if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+fi
+
+%postun
+touch --no-create %{_datadir}/icons/hicolor || :
+if [ -x %{_bindir}/gtk-update-icon-cache ]; then
+   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+fi
 
 %files -f byzanz.lang
 %defattr(-,root,root,-)
@@ -77,6 +87,9 @@ killall -HUP gconfd-2 || :
 %{_datadir}/icons/hicolor/24x24/apps/byzanz-record-window.png
 
 %changelog
+* Thu Jan 26 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.0-2
+- Add post and postun scripts to update the GTK+ icon cache.
+
 * Thu Jan 26 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.0-1
 - Update to 0.1.0
 - Add scriptlet for installing GConf schema.

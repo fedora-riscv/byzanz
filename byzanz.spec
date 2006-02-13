@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.1.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: GPL
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -28,7 +28,7 @@ record to Ogg Theora, but to GIF.
 
 %build
 %configure
-make %{?_smp_mflags}
+make
 
 %install
 rm -rf %{buildroot}
@@ -87,6 +87,9 @@ fi
 %{_datadir}/icons/hicolor/24x24/apps/byzanz-record-window.png
 
 %changelog
+* Mon Feb 13 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.0-5
+- Previous build failed, try without %%{_smp_mflags}.
+
 * Mon Feb 13 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.0-4
 - Bump release again.
 

@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.1.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -87,6 +87,9 @@ fi
 %{_datadir}/icons/hicolor/24x24/apps/byzanz-record-window.png
 
 %changelog
+* Mon Feb 13 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.0-3
+- Bump release and rebuild for new gcc4.1 and glibc.
+
 * Thu Jan 26 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.0-2
 - Add post and postun scripts to update the GTK+ icon cache.
 

@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
-Version: 0.1.0
-Release: 6%{?dist}
+Version: 0.1.1
+Release: 1%{?dist}
 License: GPL
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -82,11 +82,15 @@ fi
 %{_libdir}/bonobo/servers/ByzanzApplet.server
 %{_libexecdir}/byzanz-applet
 %{_datadir}/gnome-2.0/ui/byzanzapplet.xml
-%{_datadir}/icons/hicolor/24x24/apps/byzanz-record-area.png
-%{_datadir}/icons/hicolor/24x24/apps/byzanz-record-screen.png
-%{_datadir}/icons/hicolor/24x24/apps/byzanz-record-window.png
+%{_datadir}/icons/hicolor/*/apps/byzanz-record-area.*
+%{_datadir}/icons/hicolor/*/apps/byzanz-record-desktop.*
+%{_datadir}/icons/hicolor/*/apps/byzanz-record-window.*
+%{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Mon May 29 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-1
+- Update to 1.1.1.
+
 * Mon Feb 20 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.0-6
 - Bump for another rebuild.
 

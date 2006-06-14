@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.1.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPL
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -14,6 +14,7 @@ BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: gnome-panel-devel >= 2.10.0
 BuildRequires: gnome-vfs2-devel >= 2.12.0
 BuildRequires: libgnomeui-devel >= 2.12.0
+BuildRequires: gettext-devel
 
 Requires(pre): GConf2
 Requires(post): GConf2
@@ -88,6 +89,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Wed Jun 14 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-2
+- Add gettext-devel BR
+
 * Mon May 29 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-1
 - Update to 1.1.1.
 

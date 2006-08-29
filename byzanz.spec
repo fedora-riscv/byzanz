@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.1.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: GPL
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -89,6 +89,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Mon Aug 28 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-3
+- Bump release and rebuild.
+
 * Wed Jun 14 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-2
 - Add gettext-devel BR
 

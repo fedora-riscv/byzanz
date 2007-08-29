@@ -1,8 +1,8 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.1.1
-Release: 4%{?dist}
-License: GPL
+Release: 5%{?dist}
+License: GPLv2+
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
 Source0: http://www.freedesktop.org/~company/byzanz/%{name}-%{version}.tar.gz
@@ -90,6 +90,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Fri Aug 24 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-5
+- Update license tag.
+
 * Mon Aug 28 2006 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-4
 - BR perl(XML::Parser)
 

@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.1.1
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: GPLv2+
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -90,6 +90,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Mon Feb 11 2008 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-6
+- Rebuild for GCC 4.3
+
 * Fri Aug 24 2007 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.1.1-5
 - Update license tag.
 

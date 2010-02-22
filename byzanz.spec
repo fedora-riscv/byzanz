@@ -9,7 +9,7 @@ Source0: http://http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: cairo-devel >= 1.8.10
-BuildRequires: gtk2-devel >= 2.27.10
+BuildRequires: gtk2-devel >= 2.17.10
 BuildRequires: libXdamage-devel >= 1.0
 BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: gnome-panel-devel >= 2.10.0

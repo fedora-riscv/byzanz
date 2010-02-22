@@ -5,7 +5,7 @@ Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
-Source0: http://www.freedesktop.org/~company/byzanz/%{name}-%{version}.tar.gz
+Source0: http://http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: cairo-devel >= 1.8.10

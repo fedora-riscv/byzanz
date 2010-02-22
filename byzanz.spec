@@ -91,6 +91,7 @@ fi
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-area.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-desktop.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-window.*
+%{_mandir}/man1/byzanz-playback.1*
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog

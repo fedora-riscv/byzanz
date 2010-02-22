@@ -16,6 +16,7 @@ BuildRequires: gnome-panel-devel >= 2.10.0
 BuildRequires: gstreamer-devel >= 0.10.24
 BuildRequires: gstreamer-plugins-base-devel >= 0.10.24
 BuildRequires: gettext-devel
+BuildRequires: intltool
 BuildRequires: perl(XML::Parser)
 
 Requires(pre): GConf2

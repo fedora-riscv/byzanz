@@ -1,20 +1,22 @@
 Summary: A desktop recorder
 Name: byzanz
-Version: 0.1.1
-Release: 8%{?dist}
-License: GPLv2+
+Version: 0.2.1
+Release: 1%{?dist}
+License: GPLv3+
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
-Source0: http://www.freedesktop.org/~company/byzanz/%{name}-%{version}.tar.gz
+Source0: http://http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires: gtk2-devel >= 2.6.0
+BuildRequires: cairo-devel >= 1.8.10
+BuildRequires: gtk2-devel >= 2.17.10
 BuildRequires: libXdamage-devel >= 1.0
 BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: gnome-panel-devel >= 2.10.0
-BuildRequires: gnome-vfs2-devel >= 2.12.0
-BuildRequires: libgnomeui-devel >= 2.12.0
+BuildRequires: gstreamer-devel >= 0.10.24
+BuildRequires: gstreamer-plugins-base-devel >= 0.10.24
 BuildRequires: gettext-devel
+BuildRequires: intltool
 BuildRequires: perl(XML::Parser)
 
 Requires(pre): GConf2
@@ -22,8 +24,9 @@ Requires(post): GConf2
 Requires(preun): GConf2
 
 %description
-Byzanz is a desktop recorder. Just like Istanbul. But it doesn't
-record to Ogg Theora, but to GIF.
+Byzanz is a desktop recorder striving for ease of use. It can record to 
+GIF images, Ogg Theora video - optionally with sound - and other formats.
+A GNOME panel applet and a command-line recording tool are included.
 
 %prep
 %setup -q
@@ -80,6 +83,7 @@ fi
 %doc AUTHORS ChangeLog COPYING NEWS
 
 %{_sysconfdir}/gconf/schemas/byzanz.schemas
+%{_bindir}/byzanz-playback
 %{_bindir}/byzanz-record
 %{_libdir}/bonobo/servers/ByzanzApplet.server
 %{_libexecdir}/byzanz-applet
@@ -87,9 +91,13 @@ fi
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-area.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-desktop.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-window.*
+%{_mandir}/man1/byzanz-playback.1*
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Mon Mar 15 2010 Benjamin Otte <otte@redhat.com> - 0.2.1-1
+- Update to 0.2.1
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.1-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 

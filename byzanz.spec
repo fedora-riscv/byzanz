@@ -1,6 +1,6 @@
 Summary: A desktop recorder
 Name: byzanz
-Version: 0.2.1
+Version: 0.2.2
 Release: 1%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
@@ -95,6 +95,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Tue Apr 13 2010 Benjamin Otte <otte@redhat.com> - 0.2.2-1
+- Update to 0.2.2
+
 * Mon Feb 22 2010 Benjamin Otte <otte@redhat.com> - 0.2.1-1
 - Update to 0.2.1
 

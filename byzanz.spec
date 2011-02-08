@@ -1,7 +1,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.2.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://www.freedesktop.org/~company/byzanz/
@@ -95,6 +95,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.2-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Tue Apr 13 2010 Benjamin Otte <otte@redhat.com> - 0.2.2-1
 - Update to 0.2.2
 

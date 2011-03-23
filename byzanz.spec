@@ -1,23 +1,30 @@
+%global git 1fc40d080c403636ea621c9ceb21ce1082f3be07
 Summary: A desktop recorder
 Name: byzanz
-Version: 0.2.2
-Release: 2%{?dist}
+Version: 0.3
+Release: 0.1%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
-URL: http://www.freedesktop.org/~company/byzanz/
-Source0: http://http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
+URL: http://git.gnome.org/browse/byzanz/
+#Source0: http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
+# git archive --format=tar --prefix=byzanz-%{git}/ %{git} | xz > byzanz-%{git}
+Source0: byzanz-%{git}.tar.xz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+BuildRequires: gnome-common
 BuildRequires: cairo-devel >= 1.8.10
 BuildRequires: gtk2-devel >= 2.17.10
 BuildRequires: libXdamage-devel >= 1.0
 BuildRequires: glib2-devel >= 2.6.0
-BuildRequires: gnome-panel-devel >= 2.10.0
+BuildRequires: gnome-panel-devel >= 2.91.91
 BuildRequires: gstreamer-devel >= 0.10.24
 BuildRequires: gstreamer-plugins-base-devel >= 0.10.24
 BuildRequires: gettext-devel
 BuildRequires: intltool
 BuildRequires: perl(XML::Parser)
+BuildRequires: libtool
+BuildRequires: autoconf
+BuildRequires: automake
 
 Requires(pre): GConf2
 Requires(post): GConf2
@@ -29,9 +36,10 @@ GIF images, Ogg Theora video - optionally with sound - and other formats.
 A GNOME panel applet and a command-line recording tool are included.
 
 %prep
-%setup -q
+%setup -q -n byzanz-%{git}
 
 %build
+./autogen.sh
 %configure
 make
 
@@ -85,9 +93,10 @@ fi
 %{_sysconfdir}/gconf/schemas/byzanz.schemas
 %{_bindir}/byzanz-playback
 %{_bindir}/byzanz-record
-%{_libdir}/bonobo/servers/ByzanzApplet.server
 %{_libexecdir}/byzanz-applet
+%{_datadir}/dbus-1/services/org.gnome.panel.applet.ByzanzAppletFactory.service
 %{_datadir}/gnome-2.0/ui/byzanzapplet.xml
+%{_datadir}/gnome-panel/4.0/applets/org.gnome.ByzanzApplet.panel-applet
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-area.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-desktop.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-window.*
@@ -95,6 +104,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Wed Mar 23 2011 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.3-0.1
+- Update to prerelease of 0.3
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.2.2-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 

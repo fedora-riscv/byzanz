@@ -1,8 +1,8 @@
-%global git 1fc40d080c403636ea621c9ceb21ce1082f3be07
+%global git 64ab7a13975247647cb4043e0144097eb2fa12b7
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.1%{?dist}
+Release: 0.2%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -104,6 +104,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Fri Jun 24 2011 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.3-0.2
+- Update git snapshot (translation updates only)
+
 * Wed Mar 23 2011 Jeffrey C. Ollie <jeff@ocjtech.us> - 0.3-0.1
 - Update to prerelease of 0.3
 

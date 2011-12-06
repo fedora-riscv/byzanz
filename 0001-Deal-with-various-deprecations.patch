@@ -1,0 +1,178 @@
+From 3924afcc774f4010c46cb9c3eb5240bf9fb4bb18 Mon Sep 17 00:00:00 2001
+From: Matthias Clasen <mclasen@redhat.com>
+Date: Tue, 6 Dec 2011 14:19:19 -0500
+Subject: [PATCH] Deal with various deprecations
+
+---
+ configure.ac            |   10 +++++-----
+ src/byzanzencoder.c     |    3 +--
+ src/byzanzlayercursor.c |   24 ++++++++++++++++++++----
+ src/byzanzselect.c      |   18 +++++++++++++-----
+ src/playback.c          |    1 -
+ src/record.c            |    1 -
+ 6 files changed, 39 insertions(+), 18 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index a6f1135..044473f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -65,14 +65,14 @@ dnl ====================================
+ 
+ CAIRO_REQ="1.10"
+ GTK_REQ="3.0.0"
+-GTHREAD_REQ="2.6.0"
+ APPLET_REQ="2.91.91"
+ XDAMAGE_REQ="1.0"
+ GST_REQ="0.10.24"
++GIO_REQ="2.31"
+ 
+-PKG_CHECK_MODULES(GTK, cairo >= $CAIRO_REQ gtk+-3.0 >= $GTK_REQ x11 gio-2.0)
++PKG_CHECK_MODULES(GTK, cairo >= $CAIRO_REQ gtk+-3.0 >= $GTK_REQ x11 gio-2.0 >= $GIO_REQ)
+ 
+-PKG_CHECK_MODULES(GTHREAD, xdamage >= $XDAMAGE_REQ gthread-2.0 >= $GTHREAD_REQ)
++PKG_CHECK_MODULES(XDAMAGE, xdamage >= $XDAMAGE_REQ)
+ 
+ LIBPANEL_APPLET="libpanelapplet-4.0"
+ PKG_CHECK_MODULES(APPLET, $LIBPANEL_APPLET >= $APPLET_REQ)
+@@ -91,8 +91,8 @@ GIFENC_LIBS="$GTK_LIBS"
+ AC_SUBST(GIFENC_CFLAGS)
+ AC_SUBST(GIFENC_LIBS)
+ 
+-BYZANZ_CFLAGS="$GTK_CFLAGS $GTHREAD_CFLAGS $GST_CFLAGS $ERROR_CFLAGS"
+-BYZANZ_LIBS="$GTK_LIBS $GTHREAD_LIBS $GST_LIBS"
++BYZANZ_CFLAGS="$GTK_CFLAGS $XDAMAGE_CFLAGS $GST_CFLAGS $ERROR_CFLAGS"
++BYZANZ_LIBS="$GTK_LIBS $XDAMAGE_LIBS $GST_LIBS"
+ AC_SUBST(BYZANZ_CFLAGS)
+ AC_SUBST(BYZANZ_LIBS)
+ 
+diff --git a/src/byzanzencoder.c b/src/byzanzencoder.c
+index a2c98f4..b3a4d51 100644
+--- a/src/byzanzencoder.c
++++ b/src/byzanzencoder.c
+@@ -276,8 +276,7 @@ byzanz_encoder_constructed (GObject *object)
+ {
+   ByzanzEncoder *encoder = BYZANZ_ENCODER (object);
+ 
+-  encoder->thread = g_thread_create (byzanz_encoder_thread, encoder, 
+-      TRUE, &encoder->error);
++  encoder->thread = g_thread_new ("encoder", byzanz_encoder_thread, encoder);
+   if (encoder->thread)
+     g_object_ref (encoder);
+ 
+diff --git a/src/byzanzlayercursor.c b/src/byzanzlayercursor.c
+index 8358493..87ba342 100644
+--- a/src/byzanzlayercursor.c
++++ b/src/byzanzlayercursor.c
+@@ -64,8 +64,16 @@ byzanz_layer_cursor_poll (gpointer data)
+ {
+   ByzanzLayerCursor *clayer = data;
+   int x, y;
+-  
+-  gdk_window_get_pointer (BYZANZ_LAYER (clayer)->recorder->window, &x, &y, NULL);
++  GdkDevice *device;
++  GdkDeviceManager *device_manager;
++  GdkDisplay *display;
++  GdkWindow *window;
++
++  window = BYZANZ_LAYER (clayer)->recorder->window;
++  display = gdk_window_get_display (window);
++  device_manager = gdk_display_get_device_manager (display);
++  device = gdk_device_manager_get_client_pointer (device_manager);
++  gdk_window_get_device_position (window, device, &x, &y, NULL);
+   if (x == clayer->cursor_x &&
+       y == clayer->cursor_y)
+     return TRUE;
+@@ -107,8 +115,16 @@ byzanz_layer_cursor_snapshot (ByzanzLayer *layer)
+   ByzanzLayerCursor *clayer = BYZANZ_LAYER_CURSOR (layer);
+   cairo_region_t *region, *area;
+   int x, y;
+-  
+-  gdk_window_get_pointer (layer->recorder->window, &x, &y, NULL);
++  GdkDevice *device;
++  GdkDeviceManager *device_manager;
++  GdkDisplay *display;
++  GdkWindow *window;
++
++  window = layer->recorder->window;
++  display = gdk_window_get_display (window);
++  device_manager = gdk_display_get_device_manager (display);
++  device = gdk_device_manager_get_client_pointer (device_manager);
++  gdk_window_get_device_position (window, device, &x, &y, NULL);
+   if (x == clayer->cursor_x &&
+       y == clayer->cursor_y &&
+       clayer->cursor_next == clayer->cursor)
+diff --git a/src/byzanzselect.c b/src/byzanzselect.c
+index c74b1ef..bb2c911 100644
+--- a/src/byzanzselect.c
++++ b/src/byzanzselect.c
+@@ -227,7 +227,7 @@ realize_cb (GtkWidget *widget, gpointer datap)
+       GDK_POINTER_MOTION_MASK);
+   cursor = gdk_cursor_new (GDK_CROSSHAIR);
+   gdk_window_set_cursor (window, cursor);
+-  gdk_cursor_unref (cursor);
++  g_object_unref (cursor);
+   gdk_window_set_background_pattern (window, NULL);
+ }
+ 
+@@ -308,7 +308,7 @@ select_window_button_pressed_cb (GtkWidget *widget, GdkEventButton *event, gpoin
+   ByzanzSelectData *data = datap;
+   GdkWindow *window;
+ 
+-  gdk_pointer_ungrab (event->time);
++  gdk_device_ungrab (gdk_event_get_device ((GdkEvent*)event), event->time);
+   if (event->button == 1) {
+     Window w;
+ 
+@@ -335,14 +335,22 @@ static void
+ byzanz_select_window (ByzanzSelectData *data)
+ {
+   GdkCursor *cursor;
+-  
++  GdkWindow *window;
++  GdkDevice *device;
++  GdkDeviceManager *device_manager;
++  GdkDisplay *display;
++
+   cursor = gdk_cursor_new (GDK_CROSSHAIR);
+   data->window = gtk_invisible_new ();
+   g_signal_connect (data->window, "button-press-event", 
+       G_CALLBACK (select_window_button_pressed_cb), data);
+   gtk_widget_show (data->window);
+-  gdk_pointer_grab (gtk_widget_get_window (data->window), FALSE, GDK_BUTTON_PRESS_MASK, NULL, cursor, GDK_CURRENT_TIME);
+-  gdk_cursor_unref (cursor);
++  window = gtk_widget_get_window (data->window);
++  display = gdk_window_get_display (window);
++  device_manager = gdk_display_get_device_manager (display);
++  device = gdk_device_manager_get_client_pointer (device_manager);
++  gdk_device_grab (device, window, GDK_OWNERSHIP_NONE, FALSE, GDK_BUTTON_PRESS_MASK, cursor, GDK_CURRENT_TIME);
++  g_object_unref (cursor);
+ }
+   
+ /*** API ***/
+diff --git a/src/playback.c b/src/playback.c
+index a74d0e9..f650ff8 100644
+--- a/src/playback.c
++++ b/src/playback.c
+@@ -71,7 +71,6 @@ main (int argc, char **argv)
+   textdomain (GETTEXT_PACKAGE);
+ #endif
+ 
+-  g_thread_init (NULL);
+   g_type_init ();
+ 
+   context = g_option_context_new (_("process a Byzanz debug recording"));
+diff --git a/src/record.c b/src/record.c
+index e0871c8..5c83b01 100644
+--- a/src/record.c
++++ b/src/record.c
+@@ -131,7 +131,6 @@ main (int argc, char **argv)
+   textdomain (GETTEXT_PACKAGE);
+ #endif
+ 
+-  g_thread_init (NULL);
+   context = g_option_context_new (_("record your current desktop session"));
+ #ifdef GETTEXT_PACKAGE
+   g_option_context_set_translation_domain(context, GETTEXT_PACKAGE);
+-- 
+1.7.7.3
+

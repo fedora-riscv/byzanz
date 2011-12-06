@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.3%{?dist}
+Release: 0.4%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -30,6 +30,8 @@ Requires(pre): GConf2
 Requires(post): GConf2
 Requires(preun): GConf2
 
+Patch0: 0001-Deal-with-various-deprecations.patch
+
 %description
 Byzanz is a desktop recorder striving for ease of use. It can record to 
 GIF images, Ogg Theora video - optionally with sound - and other formats.
@@ -37,6 +39,7 @@ A GNOME panel applet and a command-line recording tool are included.
 
 %prep
 %setup -q -n byzanz-%{git}
+%patch0 -p1
 
 %build
 ./autogen.sh
@@ -104,6 +107,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Tue Dec  6 2011 Matthias Clasen <mclasen@redhat.com> - 0.3-0.4
+- Deal with deprecations
+
 * Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 0.3-0.3
 - Rebuild for new libpng
 

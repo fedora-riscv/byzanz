@@ -43,6 +43,7 @@ A GNOME panel applet and a command-line recording tool are included.
 
 %build
 ./autogen.sh
+CFLAGS="%optflags -Wno-deprecated-declarations"
 %configure
 make
 

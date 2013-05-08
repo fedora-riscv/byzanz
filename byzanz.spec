@@ -13,7 +13,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: gnome-common
 BuildRequires: cairo-devel >= 1.8.10
-BuildRequires: gtk2-devel >= 2.17.10
+BuildRequires: gtk3-devel
 BuildRequires: libXdamage-devel >= 1.0
 BuildRequires: glib2-devel >= 2.6.0
 BuildRequires: gstreamer-devel >= 0.10.24

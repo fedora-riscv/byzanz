@@ -16,8 +16,8 @@ BuildRequires: cairo-devel >= 1.8.10
 BuildRequires: gtk3-devel
 BuildRequires: libXdamage-devel >= 1.0
 BuildRequires: glib2-devel >= 2.6.0
-BuildRequires: gstreamer-devel >= 0.10.24
-BuildRequires: gstreamer-plugins-base-devel >= 0.10.24
+BuildRequires: gstreamer1-devel
+BuildRequires: gstreamer1-plugins-base-devel
 BuildRequires: gettext-devel
 BuildRequires: intltool
 BuildRequires: perl(XML::Parser)

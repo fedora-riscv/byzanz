@@ -1,8 +1,8 @@
-%global git 64ab7a13975247647cb4043e0144097eb2fa12b7
+%global git 5a6c336982e5956c6dce5d3d51d057ac034ce7ca
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.7%{?dist}
+Release: 0.9%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -16,7 +16,6 @@ BuildRequires: cairo-devel >= 1.8.10
 BuildRequires: gtk2-devel >= 2.17.10
 BuildRequires: libXdamage-devel >= 1.0
 BuildRequires: glib2-devel >= 2.6.0
-BuildRequires: gnome-panel-devel >= 2.91.91
 BuildRequires: gstreamer-devel >= 0.10.24
 BuildRequires: gstreamer-plugins-base-devel >= 0.10.24
 BuildRequires: gettext-devel
@@ -30,16 +29,13 @@ Requires(pre): GConf2
 Requires(post): GConf2
 Requires(preun): GConf2
 
-Patch0: 0001-Deal-with-various-deprecations.patch
-
 %description
 Byzanz is a desktop recorder striving for ease of use. It can record to 
 GIF images, Ogg Theora video - optionally with sound - and other formats.
-A GNOME panel applet and a command-line recording tool are included.
+A command-line recording tool is included.
 
 %prep
 %setup -q -n byzanz-%{git}
-%patch0 -p1
 
 %build
 ./autogen.sh
@@ -56,29 +52,7 @@ make DESTDIR=%{buildroot} install
 %clean
 rm -rf %{buildroot}
 
-%pre
-if [ $1 -gt 1 ]; then
-    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    if [ -f %{_sysconfdir}/gconf/schemas/byzanz.schemas ]; then
-        gconftool-2 --makefile-uninstall-rule \
-          %{_sysconfdir}/gconf/schemas/byzanz.schemas >/dev/null || :
-        killall -HUP gconfd-2 || :
-    fi
-fi
-
-%preun
-if [ $1 -eq 0 ]; then
-    export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-    gconftool-2 --makefile-uninstall-rule \
-      %{_sysconfdir}/gconf/schemas/byzanz.schemas > /dev/null || :
-    killall -HUP gconfd-2 || :
-fi
-
 %post
-export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
-gconftool-2 --makefile-install-rule \
-  %{_sysconfdir}/gconf/schemas/byzanz.schemas > /dev/null || :
-killall -HUP gconfd-2 || :
 touch --no-create %{_datadir}/icons/hicolor || :
 if [ -x %{_bindir}/gtk-update-icon-cache ]; then
    %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
@@ -93,21 +67,22 @@ fi
 %files -f byzanz.lang
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS
-
-%{_sysconfdir}/gconf/schemas/byzanz.schemas
 %{_bindir}/byzanz-playback
 %{_bindir}/byzanz-record
-%{_libexecdir}/byzanz-applet
-%{_datadir}/dbus-1/services/org.gnome.panel.applet.ByzanzAppletFactory.service
-%{_datadir}/gnome-2.0/ui/byzanzapplet.xml
-%{_datadir}/gnome-panel/4.0/applets/org.gnome.ByzanzApplet.panel-applet
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-area.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-desktop.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-window.*
+%{_mandir}/man1/byzanz.1*
 %{_mandir}/man1/byzanz-playback.1*
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Wed May  8 2013 Tom Callaway <spot@fedoraproject.org> - 0.3-0.9
+- sync to latest git, disable panel applet
+
+* Fri Apr 26 2013 Matthias Clasen <mclasen@redhat.com> - 0.3-0.8
+- Rebuild
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-0.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 

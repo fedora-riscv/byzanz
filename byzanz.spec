@@ -29,8 +29,6 @@ Requires(pre): GConf2
 Requires(post): GConf2
 Requires(preun): GConf2
 
-Patch0: 0001-Deal-with-various-deprecations.patch
-
 %description
 Byzanz is a desktop recorder striving for ease of use. It can record to 
 GIF images, Ogg Theora video - optionally with sound - and other formats.
@@ -38,7 +36,6 @@ A command-line recording tool is included.
 
 %prep
 %setup -q -n byzanz-%{git}
-%patch0 -p1
 
 %build
 ./autogen.sh
@@ -70,14 +67,8 @@ fi
 %files -f byzanz.lang
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS
-
-%{_sysconfdir}/gconf/schemas/byzanz.schemas
 %{_bindir}/byzanz-playback
 %{_bindir}/byzanz-record
-%{_libexecdir}/byzanz-applet
-%{_datadir}/dbus-1/services/org.gnome.panel.applet.ByzanzAppletFactory.service
-%{_datadir}/gnome-2.0/ui/byzanzapplet.xml
-%{_datadir}/gnome-panel/4.0/applets/org.gnome.ByzanzApplet.panel-applet
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-area.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-desktop.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-window.*

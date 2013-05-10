@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.9%{?dist}
+Release: 0.10%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -29,6 +29,8 @@ Requires(pre): GConf2
 Requires(post): GConf2
 Requires(preun): GConf2
 
+Patch0: 0001-Deal-with-various-deprecations.patch
+
 %description
 Byzanz is a desktop recorder striving for ease of use. It can record to 
 GIF images, Ogg Theora video - optionally with sound - and other formats.
@@ -36,6 +38,7 @@ A command-line recording tool is included.
 
 %prep
 %setup -q -n byzanz-%{git}
+%patch0 -p1
 
 %build
 ./autogen.sh
@@ -53,22 +56,28 @@ make DESTDIR=%{buildroot} install
 rm -rf %{buildroot}
 
 %post
-touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun
-touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
+
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f byzanz.lang
 %defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS
+
+%{_sysconfdir}/gconf/schemas/byzanz.schemas
 %{_bindir}/byzanz-playback
 %{_bindir}/byzanz-record
+%{_libexecdir}/byzanz-applet
+%{_datadir}/dbus-1/services/org.gnome.panel.applet.ByzanzAppletFactory.service
+%{_datadir}/gnome-2.0/ui/byzanzapplet.xml
+%{_datadir}/gnome-panel/4.0/applets/org.gnome.ByzanzApplet.panel-applet
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-area.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-desktop.*
 %{_datadir}/icons/hicolor/*/apps/byzanz-record-window.*
@@ -77,6 +86,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Fri May 10 2013 Adam Williamson <awilliam@redhat.com> - 0.3.0.10
+- use the currently-preferred way of doing gtk-update-icon-cache
+
 * Wed May  8 2013 Tom Callaway <spot@fedoraproject.org> - 0.3-0.9
 - sync to latest git, disable panel applet
 

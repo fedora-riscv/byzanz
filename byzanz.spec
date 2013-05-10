@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.9%{?dist}
+Release: 0.10%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -53,16 +53,16 @@ make DESTDIR=%{buildroot} install
 rm -rf %{buildroot}
 
 %post
-touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
-fi
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
 %postun
-touch --no-create %{_datadir}/icons/hicolor || :
-if [ -x %{_bindir}/gtk-update-icon-cache ]; then
-   %{_bindir}/gtk-update-icon-cache --quiet %{_datadir}/icons/hicolor || :
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 fi
+
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f byzanz.lang
 %defattr(-,root,root,-)
@@ -77,6 +77,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Fri May 10 2013 Adam Williamson <awilliam@redhat.com> - 0.3.0.10
+- use the currently-preferred way of doing gtk-update-icon-cache
+
 * Wed May  8 2013 Tom Callaway <spot@fedoraproject.org> - 0.3-0.9
 - sync to latest git, disable panel applet
 

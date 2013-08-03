@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.10%{?dist}
+Release: 0.11%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -77,6 +77,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-0.11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Fri May 10 2013 Adam Williamson <awilliam@redhat.com> - 0.3.0.10
 - use the currently-preferred way of doing gtk-update-icon-cache
 

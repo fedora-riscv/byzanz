@@ -2,14 +2,13 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.12%{?dist}
+Release: 0.13%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
 #Source0: http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
 # git archive --format=tar --prefix=byzanz-%{git}/ %{git} | xz > byzanz-%{git}
 Source0: byzanz-%{git}.tar.xz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: gnome-common
 BuildRequires: cairo-devel >= 1.8.10
@@ -40,17 +39,17 @@ A command-line recording tool is included.
 %build
 ./autogen.sh
 CFLAGS="%optflags -Wno-deprecated-declarations"
+%ifarch armv7l armv7hl armv7hnl
+# http://rwmj.wordpress.com/2014/01/06/alignment-errors-on-fedora-arm/
+CFLAGS="$CFLAGS -Wno-cast-align"
+%endif
 %configure
 make
 
 %install
-rm -rf %{buildroot}
 export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make DESTDIR=%{buildroot} install
 %find_lang byzanz
-
-%clean
-rm -rf %{buildroot}
 
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
@@ -65,7 +64,6 @@ fi
 /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files -f byzanz.lang
-%defattr(-,root,root,-)
 %doc AUTHORS ChangeLog COPYING NEWS
 %{_bindir}/byzanz-playback
 %{_bindir}/byzanz-record
@@ -77,6 +75,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Thu Jun 19 2014 Yaakov Selkowitz <yselkowi@redhat.com> - 0.3-0.13
+- Fix FTBFS on armv7 (#1106024)
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-0.12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 

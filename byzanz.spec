@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.15%{?dist}
+Release: 0.16%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -75,6 +75,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-0.16
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.3-0.15
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 

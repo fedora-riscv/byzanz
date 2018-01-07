@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.19%{?dist}
+Release: 0.20%{?dist}
 License: GPLv3+
 Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
@@ -51,18 +51,6 @@ export GCONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1
 make DESTDIR=%{buildroot} install
 %find_lang byzanz
 
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%postun
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
 %files -f byzanz.lang
 %doc AUTHORS ChangeLog COPYING NEWS
 %{_bindir}/byzanz-playback
@@ -75,6 +63,9 @@ fi
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Sun Jan 07 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 0.3-0.20
+- Remove obsolete scriptlets
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-0.19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 

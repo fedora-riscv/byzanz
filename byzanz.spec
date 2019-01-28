@@ -4,7 +4,6 @@ Name: byzanz
 Version: 0.3
 Release: 0.22%{?dist}
 License: GPLv3+
-Group: Applications/Multimedia
 URL: http://git.gnome.org/browse/byzanz/
 #Source0: http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
 # git archive --format=tar --prefix=byzanz-%{git}/ %{git} | xz > byzanz-%{git}

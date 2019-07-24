@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.23%{?dist}
+Release: 0.24%{?dist}
 License: GPLv3+
 URL: http://git.gnome.org/browse/byzanz/
 #Source0: http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
@@ -62,6 +62,9 @@ make DESTDIR=%{buildroot} install
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Wed Jul 24 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-0.24
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
+
 * Thu Jan 31 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-0.23
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 

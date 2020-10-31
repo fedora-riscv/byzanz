@@ -1,0 +1,13 @@
+diff --git a/src/byzanzencoder.c b/src/byzanzencoder.c
+index b3a4d51..d05abf9 100644
+--- a/src/byzanzencoder.c
++++ b/src/byzanzencoder.c
+@@ -171,7 +171,7 @@ static void     byzanz_encoder_class_intern_init (gpointer klass, gpointer data)
+ GType
+ byzanz_encoder_get_type (void)
+ {
+-  static volatile gsize g_define_type_id__volatile = 0;
++  static gsize g_define_type_id__volatile = 0;
+   if (g_once_init_enter (&g_define_type_id__volatile)) {
+     GTypeInfo info = {
+       sizeof (ByzanzEncoderClass),

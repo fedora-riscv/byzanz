@@ -2,12 +2,13 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.26%{?dist}
+Release: 0.27%{?dist}
 License: GPLv3+
 URL: http://git.gnome.org/browse/byzanz/
 #Source0: http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
 # git archive --format=tar --prefix=byzanz-%{git}/ %{git} | xz > byzanz-%{git}
 Source0: byzanz-%{git}.tar.xz
+Patch0:  %{name}-gcc11.patch
 
 BuildRequires: gnome-common
 BuildRequires: cairo-devel >= 1.8.10
@@ -34,6 +35,7 @@ A command-line recording tool is included.
 
 %prep
 %setup -q -n byzanz-%{git}
+%patch0 -p1
 
 %build
 ./autogen.sh
@@ -62,6 +64,9 @@ make DESTDIR=%{buildroot} install
 %{_mandir}/man1/byzanz-record.1*
 
 %changelog
+* Sat Oct 31 2020 Jeff Law <law@redhat.com> - 0.3-0.27
+- Fix bogus volatile caught by gcc-11
+
 * Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 0.3-0.26
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 

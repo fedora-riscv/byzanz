@@ -23,6 +23,7 @@ BuildRequires: perl(XML::Parser)
 BuildRequires: libtool
 BuildRequires: autoconf
 BuildRequires: automake
+BuildRequires: make
 
 Requires(pre): GConf2
 Requires(post): GConf2

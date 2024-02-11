@@ -2,7 +2,7 @@
 Summary: A desktop recorder
 Name: byzanz
 Version: 0.3
-Release: 0.33%{?dist}
+Release: 0.33.rv64%{?dist}
 License: GPLv3+
 URL: https://gitlab.gnome.org/Archive/byzanz
 #Source0: http://download.gnome.org/sources/%{name}/0.2/%{name}-%{version}.tar.bz2
@@ -41,7 +41,7 @@ A command-line recording tool is included.
 %build
 ./autogen.sh
 CFLAGS="%optflags -Wno-deprecated-declarations"
-%ifarch armv7l armv7hl armv7hnl
+%ifarch armv7l armv7hl armv7hnl riscv64
 # http://rwmj.wordpress.com/2014/01/06/alignment-errors-on-fedora-arm/
 CFLAGS="$CFLAGS -Wno-cast-align"
 %endif
